@@ -10,23 +10,28 @@
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i class="fas fa-warehouse"></i></div>
-                            Master Kemasan
+                            Master Data
                         </h1>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
-    {{-- MAIN PAGE CONTENT --}}
-    <div class="container-fluid">
+    <!-- Main page content-->
+    <div class="container mt-4">
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link" href="{{ route('sparepart.index') }}">Sparepart</a>
+            <a class="nav-link" href="{{ route('jenis-sparepart.index') }}">Jenis Sparepart</a>
+            <a class="nav-link" href="{{ route('merk-sparepart.index') }}">Merk Sparepart</a>
+            <a class="nav-link" href="{{ route('konversi.index') }}">Satuan</a>
+            <a class="nav-link active ml-0" href="{{ route('kemasan.index') }}">Kemasan</a>
+        </nav>
+        <hr class="mt-0 mb-4">
         <div class="card mb-4">
-            <div class="card card-header-actions">
-                <div class="card-header">List Kemasan
-                    <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#Modaltambah">Tambah
-                        Kemasan</button>
-                </div>
+            <div class="card-header">List Kemasan
             </div>
+
             <div class="card-body">
                 <div class="datatable">
                     @if(session('messageberhasil'))
@@ -56,13 +61,12 @@
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-sort="ascending"
                                                 aria-label="Name: activate to sort column descending"
-                                                style="width: 5px;">No</th>
+                                                style="width: 5px;">No
+                                            </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Position: activate to sort column ascending"
                                                 style="width: 400px;">Kemasan</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Actions: activate to sort column ascending"
-                                                style="width: 150px;">Actions</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -70,19 +74,20 @@
                                         <tr role="row" class="odd">
                                             <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
                                             <td>{{ $item->nama_kemasan }}</td>
-                                            <td>
-                                                <a href="" class="btn btn-primary btn-datatable  mr-2" type="button"
-                                                    data-toggle="modal" data-target="#Modaledit-{{ $item->id_kemasan }}">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="" class="btn btn-danger btn-datatable  mr-2" type="button"
-                                                    data-toggle="modal" data-target="#Modalhapus-{{ $item->id_kemasan }}">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
+                                            {{-- <td>
+                                                        <a href="" class="btn btn-primary btn-datatable  mr-2" type="button"
+                                                            data-toggle="modal"
+                                                            data-target="#Modaledit-{{ $item->id_kemasan }}">
+                                            <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="" class="btn btn-danger btn-datatable  mr-2" type="button"
+                                                data-toggle="modal" data-target="#Modalhapus-{{ $item->id_kemasan }}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            </td> --}}
                                         </tr>
                                         @empty
-                                      
+
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -112,12 +117,13 @@
                     <hr>
                     </hr>
                     <div class="form-group">
-                        <label class="small mb-1 mr-1" for="nama_kemasan">Kemasan</label><span class="mr-4 mb-3" style="color: red">*</span>
+                        <label class="small mb-1 mr-1" for="nama_kemasan">Kemasan</label><span class="mr-4 mb-3"
+                            style="color: red">*</span>
                         <input class="form-control" name="nama_kemasan" type="text" id="nama_kemasan"
                             placeholder="Input Nama Kemasan" value="{{ old('nama_kemasan') }}"
                             class="form-control @error('nama_kemasan') is-invalid @enderror"></input>
-                            @error('nama_kemasan')<div class="text-danger small mb-1">{{ $message }}
-                            </div> @enderror
+                        @error('nama_kemasan')<div class="text-danger small mb-1">{{ $message }}
+                        </div> @enderror
                     </div>
                 </div>
 
@@ -152,7 +158,8 @@
                     <hr>
                     </hr>
                     <div class="form-group">
-                        <label class="small mb-1 mr-1" for="nama_kemasan">Kemasan</label><span class="mr-4 mb-3" style="color: red">*</span>
+                        <label class="small mb-1 mr-1" for="nama_kemasan">Kemasan</label><span class="mr-4 mb-3"
+                            style="color: red">*</span>
                         <input class="form-control" name="nama_kemasan" type="text" id="nama_kemasan"
                             value="{{ $item->nama_kemasan }}" required></input>
                     </div>
@@ -192,9 +199,9 @@
         </div>
     </div>
 </div>
-    
+
 @empty
-    
+
 @endforelse
 
 </main>

@@ -21,7 +21,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-
 class MasterdatasparepartController extends Controller
 {
     /**
@@ -35,6 +34,15 @@ class MasterdatasparepartController extends Controller
         $sparepart = Sparepart::with([
             'Jenissparepart', 'Merksparepart', 'Konversi', 'Kemasan'
         ])->where('status_sparepart','=','Aktif')->get();
+        
+
+        // Sparepart Dikelompokan Berdasarkan Fungsinya
+
+        // $sparepartmobil = Sparepart::with([
+        //     'Jenissparepart', 'Merksparepart', 'Konversi', 'Kemasan'
+        // ])->where('status_sparepart','=','Aktif')->join('tb_inventory_master_jenis_sparepart', 'tb_inventory_master_sparepart.id_jenis_sparepart', 'tb_inventory_master_jenis_sparepart.id_jenis_sparepart')
+        // ->where('fungsi', '=', 'MOBIL')->get();
+        
 
         return view('pages.inventory.masterdata.sparepart.sparepart', compact('sparepart'));
     }
@@ -46,10 +54,10 @@ class MasterdatasparepartController extends Controller
      */
     public function create()
     {
-        $jenis_sparepart = Jenissparepart::all();
-        $merk_sparepart = Merksparepart::all();
-        $konversi = Konversi::all();
-        $kemasan = Kemasan::all();
+        $jenis_sparepart = Jenissparepart::where('status_jenis','=','Aktif')->get();
+        $merk_sparepart = Merksparepart::where('status_merk','=','Aktif')->get();
+        $konversi = Konversi::get();
+        $kemasan = Kemasan::get();
 
         $id = Sparepart::getId();
         foreach ($id as $value);
@@ -71,21 +79,6 @@ class MasterdatasparepartController extends Controller
      */
     public function store(MasterdataSparepartrequest $request)
     {
-        // $data = $request->all();
-        // $data = Sparepart::create($data);
-
-        // return redirect()->route('sparepart.index')->with('messageberhasil','Data Sparepart Berhasil diubah');
-
-        if ($request->hasfile('photo')) {
-
-
-            foreach ($request->file('photo') as $image) {
-
-                $name = $image->getClientOriginalName();
-                $image->move(public_path() . '/image/', $name);
-                $data[] = $name;
-            }
-        }
 
         $id = Sparepart::getId();
         foreach ($id as $value);
@@ -99,26 +92,17 @@ class MasterdatasparepartController extends Controller
         $sparepart->id_jenis_sparepart = $request->id_jenis_sparepart;
         $sparepart->id_merk = $request->id_merk;
         $sparepart->id_konversi = $request->id_konversi;
-        $sparepart->id_rak = $request->id_rak;
-        $sparepart->id_supplier = $request->id_supplier;
         $sparepart->kode_sparepart = $kode_sparepart;
         $sparepart->nama_sparepart = $request->nama_sparepart;
-        $sparepart->stock_min = $request->stock_min;
         $sparepart->id_kemasan = $request->id_kemasan;
-        $sparepart->berat_sparepart = $request->berat_sparepart;
-        $sparepart->status_jumlah = 'Habis';
-        $sparepart->keterangan = $request->keterangan;
+        $sparepart->dimensi_berat = $request->dimensi_berat;
         $sparepart->slug = Str::slug($request->nama_sparepart);
-        $sparepart->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
+        $sparepart->lifetime = $request->lifetime;
+        $sparepart->jenis_barang = $request->jenis_barang;
+        $sparepart->status_sparepart = 'Diajukan';
         $sparepart->save();
 
-        $gallery = new Gallery;
-        $gallery->photo = $name;
-        $gallery->id_sparepart = $sparepart->id_sparepart;
-        $gallery->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
-        $gallery->save();
-
-        return redirect()->route('sparepart.index')->with('messageberhasil', 'Data Sparepart Berhasil ditambah');
+        return redirect()->route('sparepart.create')->with('messageberhasil', 'Data Sparepart Berhasil diajukan - Mohon ditunggu untuk Approval Data');
     }
 
 
@@ -146,21 +130,16 @@ class MasterdatasparepartController extends Controller
     public function edit($id_sparepart)
     {
         $item = Sparepart::findOrFail($id_sparepart);
-        $jenis_sparepart = Jenissparepart::all();
-        $merk_sparepart = Merksparepart::all();
-        $konversi = Konversi::all();
-        $rak = Rak::all();
-        $kemasan = Kemasan::all();
-        $supplier = Supplier::all();
+        $jenis_sparepart = Jenissparepart::where('status_jenis','=','Aktif')->get();
+        $merk_sparepart = Merksparepart::where('status_merk','=','Aktif')->get();
+        $konversi = Konversi::where('status_konversi','=','Aktif')->get();
+        $kemasan = Kemasan::where('status_kemasan','=','Aktif')->get();
 
         return view('pages.inventory.masterdata.sparepart.edit', [
             'item' => $item,
             'jenis_sparepart' => $jenis_sparepart,
             'merk_sparepart' => $merk_sparepart,
             'konversi' => $konversi,
-            'rak' => $rak,
-            'kemasan' => $kemasan,
-            'supplier' => $supplier
         ]);
         //
     }

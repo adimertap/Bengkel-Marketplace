@@ -3,6 +3,7 @@
 namespace App\Model\Inventory\Retur;
 
 use App\Model\Accounting\Akun;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Rcv\Rcv;
 use App\Model\Inventory\Sparepart;
 use App\Model\Inventory\Supplier;

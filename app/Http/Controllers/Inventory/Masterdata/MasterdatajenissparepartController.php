@@ -9,6 +9,7 @@ use App\Http\Requests\Inventory\Masterdata\Jenissparepartrequest as MasterdataJe
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use PhpParser\Node\Expr\New_;
 
 class MasterdatajenissparepartController extends Controller
 {
@@ -19,7 +20,7 @@ class MasterdatajenissparepartController extends Controller
      */
     public function index()
     {
-        $jenissparepart = Jenissparepart::get();
+        $jenissparepart = Jenissparepart::where('status_jenis','=','Aktif')->get();
 
         
         // Cek nilai merksparepart -> array
@@ -46,12 +47,15 @@ class MasterdatajenissparepartController extends Controller
      */
     public function store(MasterdataJenissparepartrequest $request)
     {
-        $request['id_bengkel'] = Auth::user()->id_bengkel;
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->jenis_sparepart);
 
-        Jenissparepart::create($data);
-        return redirect()->back()->with('messageberhasil','Data Jenis Sparepart Berhasil ditambahkan');
+        $jenissparepart = new Jenissparepart;
+        $jenissparepart->jenis_sparepart = $request->jenis_sparepart;
+        $jenissparepart->slug = Str::slug($request->jenis_sparepart);
+        $jenissparepart->status_jenis = 'Diajukan';
+     
+
+        $jenissparepart->save();
+        return redirect()->back()->with('messageberhasil','Data Jenis Sparepart Berhasil diajukan - Mohon ditunggu untuk Approval');
     }
 
     /**
@@ -86,9 +90,7 @@ class MasterdatajenissparepartController extends Controller
     public function update(Request $request, $id_jenis_sparepart)
     {
         $jenissparepart = Jenissparepart::findOrFail($id_jenis_sparepart);
-        $jenissparepart->fungsi = $request->fungsi;
         $jenissparepart->jenis_sparepart = $request->jenis_sparepart;
-        $jenissparepart->keterangan = $request->keterangan;
 
         $jenissparepart->save();
         return redirect()->back()->with('messageberhasil','Data Jenis Sparepart Berhasil diubah');

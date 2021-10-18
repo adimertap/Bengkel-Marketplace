@@ -14,7 +14,7 @@
                         </h1>
                     </div>
                     <div class="col-12 col-xl-auto mb-3">
-                        <a href="{{ route('masterdatagallery') }}"
+                        <a href="{{ route('Detailsparepart.index' ) }}"
                             class="btn btn-sm btn-light text-primary mr-2">Kembali</a>
                     </div>
                 </div>
@@ -52,10 +52,10 @@
                                 <form action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
-                                        <label class="small mb-1" for="id_sparepart">Sparepart</label>
-                                        <input type="hidden" name="id_sparepart" value="{{ $sparepart->id_sparepart }}">
-                                        <input type="text" value="{{ $sparepart->nama_sparepart }}" class="form-control" disabled>
-                                        @error('id_sparepart')<div class="text-danger small mb-1">
+                                        <label class="small mb-1" for="id_detail_sparepart">Sparepart</label>
+                                        <input type="hidden" name="id_detail_sparepart" value="{{ $sparepart->id_detail_sparepart }}">
+                                        <input type="text" value="{{ $sparepart->Sparepart->nama_sparepart }}" class="form-control" disabled>
+                                        @error('id_detail_sparepart')<div class="text-danger small mb-1">
                                             {{ $message }}
                                         </div> @enderror
                                     </div>
@@ -69,7 +69,7 @@
                                     </div>
                                     <hr class="my-4" />
                                     <div class="d-flex justify-content-between">
-                                        <a href="{{ route('sparepart.gallery', $sparepart->id_sparepart) }}" class="btn btn-light">Kembali</a>
+                                        <a href="{{ route('Detailsparepart-gallery', $sparepart->id_detail_sparepart) }}" class="btn btn-light">Kembali</a>
                                         <button class="btn btn-primary" type="Submit">Tambah Foto Sparepart</button>
                                     </div>
                                 </form>

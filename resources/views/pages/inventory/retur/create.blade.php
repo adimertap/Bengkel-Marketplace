@@ -137,36 +137,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse ($retur->Supplier->Sparepart as $item)
-                                                <tr id="item-{{ $item->id_sparepart }}" role="row" class="odd">
+                                                @forelse ($detailsparepart as $item)
+                                                <tr id="item-{{ $item->sparepart->id_sparepart }}" role="row" class="odd">
                                                     <th scope="row" class="small" class="sorting_1">
                                                         {{ $loop->iteration}}</th>
                                                     <td class="kode_sparepart">
-                                                        {{ $item->kode_sparepart }}</td>
+                                                        {{ $item->sparepart->kode_sparepart }}</td>
                                                     <td class="nama_sparepart">
-                                                        {{ $item->nama_sparepart }}</td>
+                                                        {{ $item->sparepart->nama_sparepart }}</td>
                                                     <td class="jenis_sparepart">
-                                                        {{ $item->Jenissparepart->jenis_sparepart }}
+                                                        {{ $item->sparepart->Jenissparepart->jenis_sparepart }}
                                                     </td>
                                                     <td class="merk_sparepart">
-                                                        {{ $item->Merksparepart->merk_sparepart }}</td>
-                                                    <td class="satuan">{{ $item->Konversi->satuan }}
+                                                        {{ $item->sparepart->Merksparepart->merk_sparepart }}</td>
+                                                    <td class="satuan">{{ $item->sparepart->Konversi->satuan }}
                                                     </td>
-                                                    <td class="text-center kemasan">{{ $item->Kemasan->nama_kemasan }}
+                                                    <td class="text-center kemasan">{{ $item->sparepart->Kemasan->nama_kemasan }}
                                                     </td>
                                                     <td>
-                                                        <button id="{{ $item->kode_sparepart }}-button" class="btn btn-success btn-datatable" type="button" data-toggle="modal"
-                                                            data-target="#Modaltambah-{{ $item->id_sparepart }}">
+                                                        <button id="{{ $item->sparepart->kode_sparepart }}-button" class="btn btn-success btn-datatable" type="button" data-toggle="modal"
+                                                            data-target="#Modaltambah-{{ $item->sparepart->id_sparepart }}">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
                                                 @empty
-                                                <tr>
-                                                    <td colspan="7" class="tex-center">
-                                                        Data Sparepart Kosong
-                                                    </td>
-                                                </tr>
+                                               
                                                 @endforelse
                                             </tbody>
                                         </table>
@@ -266,8 +262,8 @@
 </main>
 
 {{-- MODAL TAMBAH QTY SPAREPART --}}
-@forelse ($retur->Supplier->Sparepart as $item)
-<div class="modal fade" id="Modaltambah-{{ $item->id_sparepart }}" tabindex="-1" role="dialog"
+@forelse ($detailsparepart as $item)
+<div class="modal fade" id="Modaltambah-{{ $item->sparepart->id_sparepart }}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -276,10 +272,10 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
-            <form action="" method="POST" id="form-{{ $item->id_sparepart }}" class="d-inline">
+            <form action="" method="POST" id="form-{{ $item->sparepart->id_sparepart }}" class="d-inline">
                 <div class="modal-body">
                     <div class="small mb-2">
-                        <span class="font-weight-500 text-primary">{{ $item->nama_sparepart }}</span>
+                        <span class="font-weight-500 text-primary">{{ $item->sparepart->nama_sparepart }}</span>
                     </div>
                     <hr class="my-4">
                     <div class="form-group">
@@ -295,7 +291,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                    <button class="btn btn-success" onclick="konfirmsparepart(event,{{ $item->id_sparepart }})"
+                    <button class="btn btn-success" onclick="konfirmsparepart(event,{{ $item->sparepart->id_sparepart }})"
                         type="button" data-dismiss="modal">Tambah</button>
                 </div>
             </form>
@@ -306,7 +302,7 @@
 @endforelse
 
 
-@forelse ($retur->Supplier->Sparepart as $sparepart)
+@forelse ($sparepart as $item)
 <div class="modal fade" id="Modalsumbit" data-backdrop="static" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -323,7 +319,7 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
                 <button class="btn btn-primary" type="button"
-                    onclick="tambahretur(event,{{ $retur->Supplier->Sparepart }},{{ $retur->id_retur }})">Ya Sudah!</button>
+                    onclick="tambahretur(event,{{ $detailsparepart }},{{ $retur->id_retur }})">Ya Sudah!</button>
             </div>
         </div>
     </div>
@@ -360,24 +356,19 @@
 
         for (var i = 0; i < sparepart.length; i++) {
             var form = $('#form-' + sparepart[i].id_sparepart)
-            // console.log(form)
             var qty_retur = form.find('input[name="qty_retur"]').val()
             var keterangan = form.find('textarea[name="keterangan"]').val()
-            var id_bengkel = $('#id_bengkel').text()
 
             if (qty_retur == 0 | qty_retur == '') {
                 continue
             } else {
                 var id_sparepart = sparepart[i].id_sparepart
-                console.log(id_sparepart)
                 var obj = {
                     id_sparepart: id_sparepart,
                     id_retur: id_retur,
-                    id_bengkel: id_bengkel,
                     qty_retur: qty_retur,
                     keterangan: keterangan,
                 }
-                
                 dataform2.push(obj)
             }
         }

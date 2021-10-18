@@ -49,7 +49,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="small mb-1" for="kode_opname">Kode Opname</label>
                                     <input class="form-control" id="kode_opname" type="text" name="kode_opname"
-                                        placeholder="Input Kode Opname" value="{{ $kode_opname }}" readonly />
+                                        placeholder="Input Kode Opname" value="{{ $opname->kode_opname }}" readonly />
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="small mb-1" for="id_pegawai">Pegawai</label>
@@ -65,19 +65,10 @@
                                         readonly>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="small mb-1 mr-1" for="tanggal_opname">Tanggal Opname</label><span
-                                        class="mr-4 mb-3" style="color: red">*</span>
-                                    <input class="form-control" id="tanggal_opname" type="date" name="tanggal_opname"
-                                        placeholder="Input Tanggal Opname" value="{{ old('tanggal_opname') }}">
-                                    <div class="small" id="alerttanggal" style="display:none">
-                                        <span class="font-weight-500 text-danger">Error! Tanggal Belum Terisi!</span>
-                                        <button class="close" type="button" onclick="$(this).parent().hide()"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
+                                    <label class="small mb-1" for="kode_opname">Lokasi Gudang</label>
+                                    <input class="form-control" id="kode_opname" type="text" name="kode_opname"
+                                        placeholder="Input Kode Opname" value="{{ $opname->Gudang->nama_gudang }}" readonly />
                                 </div>
-    
                             </div>
                             <div class="form-group text-right">
                                 <hr>
@@ -157,40 +148,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($sparepart as $item)
-                                        <tr id="item-{{ $item->id_sparepart }}" role="row" class="odd">
+                                        @forelse ($opname->Gudang->Sparepart as $item)
+                                        <tr id="item-{{ $item->id_detail_sparepart }}" role="row" class="odd">
                                             <th scope="row" class="small" class="sorting_1">
                                                 {{ $loop->iteration}}</th>
                                             <td class="kode_sparepart">
-                                                {{ $item->kode_sparepart }}</td>
+                                                {{ $item->Sparepart->kode_sparepart }}</td>
                                             <td class="nama_sparepart">
-                                                {{ $item->nama_sparepart }}</td>
+                                                {{ $item->Sparepart->nama_sparepart }}</td>
                                             <td class="merk_sparepart">
-                                                {{ $item->Merksparepart->merk_sparepart }}</td>
+                                                {{ $item->Sparepart->Merksparepart->merk_sparepart }}</td>
                                             <td><input class="form-control form-control-sm"
-                                                    id="stock-real-{{ $item->id_sparepart }}"
-                                                    onchange="calculateSelisih({{ $item->id_sparepart }}, {{ $item->stock }})"
+                                                    id="stock-real-{{ $item->id_detail_sparepart }}"
+                                                    onchange="calculateSelisih({{ $item->id_detail_sparepart }}, {{ $item->qty_stok }})"
                                                     type="number" placeholder="Input Stock Real" />
                                             </td>
                                             <td><input class="form-control form-control-sm"
-                                                    id="selisih-{{ $item->id_sparepart }}" type="text" disabled />
+                                                    id="selisih-{{ $item->id_detail_sparepart }}" type="text" disabled />
                                             </td>
-                                            <td class="satuan">{{ $item->Konversi->satuan }}</td>
+                                            <td class="satuan">{{ $item->Sparepart->Konversi->satuan }}</td>
                                             <td><input class="form-control form-control-sm"
-                                                    id="keterangan-{{ $item->id_sparepart }}" type="text"
+                                                    id="keterangan-{{ $item->id_detail_sparepart }}" type="text"
                                                     placeholder="Input Keterangan" />
                                             </td>
                                             <td> <button class="btn btn-success btn-datatable"
-                                                    onclick="konfirmsparepart(event, {{ $item->id_sparepart }})"
+                                                    onclick="konfirmsparepart(event, {{ $item->id_detail_sparepart }})"
                                                     type="button" data-dismiss="modal"><i
                                                         class="fas fa-plus"></i></button></td>
                                         </tr>
                                         @empty
-                                        <tr>
-                                            <td colspan="7" class="tex-center">
-                                                Data Sparepart Kosong
-                                            </td>
-                                        </tr>
+                                       
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -272,13 +259,13 @@
     </div>
 </main>
 
-@forelse ($sparepart as $item)
+@forelse ($detailsparepart as $item)
 <div class="modal fade" id="Modalsumbit" data-backdrop="static" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success-soft">
-                <h5 class="modal-title" id="staticBackdropLabel">Konfirmasi Form Pembelian</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Konfirmasi Form Opname</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -290,7 +277,7 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
                 <button class="btn btn-primary" type="button"
-                    onclick="tambahsparepart(event,{{ $sparepart }},{{ $id_opname}})">Ya Sudah!</button>
+                    onclick="tambahsparepart(event,{{ $opname->Gudang->Sparepart }},{{ $opname->id_opname }})">Ya Sudah!</button>
             </div>
         </div>
     </div>
@@ -311,10 +298,10 @@
 </template>
 
 <script>
-    function calculateSelisih(id_sparepart, stock) {
-        var jumlah_real = $(`#stock-real-${id_sparepart}`).val()
+    function calculateSelisih(id_detail_sparepart, stock) {
+        var jumlah_real = $(`#stock-real-${id_detail_sparepart}`).val()
         var selisih = parseInt(stock) - (parseInt(jumlah_real) | 0)
-        $(`#selisih-${id_sparepart}`).val(selisih)
+        $(`#selisih-${id_detail_sparepart}`).val(selisih)
     }
 
     function tambahsparepart(event, sparepart, id_opname) {
@@ -337,7 +324,7 @@
             // ID SPAREPART
             var td = children[1]
             var span = $(td).children()[0]
-            var id_sparepart = $(span).attr('id')
+            var id_detail_sparepart = $(span).attr('id')
 
             // JUMLAH REAL
             var tdjumlahreal = children[5]
@@ -353,8 +340,7 @@
             var id_bengkel = $('#id_bengkel').text()
 
             var obj = {
-                id_sparepart: id_sparepart,
-                id_bengkel: id_bengkel,
+                id_detail_sparepart: id_detail_sparepart,
                 jumlah_real: jumlah_real,
                 selisih: selisih,
                 keterangan_detail: keterangan_detail,
@@ -364,29 +350,6 @@
             // console.log(obj)
         }
 
-        // for (var i = 0; i < sparepart.length; i++) {
-        //     var form = $('#item-' + sparepart[i].id_sparepart)
-        //     // console.log(form)
-        //     var jumlah_real = form.find('input[name="jumlah_real"]').val()
-        //     var keterangan_detail = form.find('input[name="keterangan_detail"]').val()
-        //     var id_bengkel = $('#id_bengkel').text()
-
-        //     if (jumlah_real == 0 | jumlah_real == '') {
-        //         continue
-        //     } else {
-        //         var id_sparepart = sparepart[i].id_sparepart
-        //         console.log(id_sparepart)
-        //         var obj = {
-        //             id_opname: idbaru,
-        //             id_sparepart: id_sparepart,
-        //             id_bengkel: id_bengkel,
-        //             jumlah_real: jumlah_real,
-        //             keterangan_detail: keterangan_detail
-        //         }
-        //         dataform2.push(obj)
-        //     }
-        // }
-
         if (validasichildren[0] == undefined) {
             $('#alertsparepartkosong').show()
         } else if (tanggal_opname == 0 | tanggal_opname == '')
@@ -394,16 +357,14 @@
         else {
             var data = {
                 _token: _token,
-                kode_opname: kode_opname,
                 id_pegawai: id_pegawai,
-                tanggal_opname: tanggal_opname,
                 sparepart: dataform2
             }
             console.log(data)
 
             $.ajax({
-                method: 'post',
-                url: '/inventory/Opname',
+                method: 'put',
+                url: '/inventory/Opname/' + id_opname,
                 data: data,
                 success: function (response) {
                     window.location.href = '/inventory/Opname'
@@ -416,20 +377,16 @@
         }
     }
 
-    function konfirmsparepart(event, id_sparepart) {
-        // var form = $('#item-' + id_sparepart)
-        // var jumlah_real = form.find('input[name="jumlah_real"]').val()
-        // var keterangan_detail = form.find('input[name="keterangan_detail"]').val()
-
-        var jumlah_real = $(`#stock-real-${id_sparepart}`).val()
-        var keterangan_detail = $(`#keterangan-${id_sparepart}`).val()
-        var selisih = $(`#selisih-${id_sparepart}`).val()
+    function konfirmsparepart(event, id_detail_sparepart) {
+        var jumlah_real = $(`#stock-real-${id_detail_sparepart}`).val()
+        var keterangan_detail = $(`#keterangan-${id_detail_sparepart}`).val()
+        var selisih = $(`#selisih-${id_detail_sparepart}`).val()
 
         if (jumlah_real == 0 | jumlah_real == '') {
             alert('Quantity Kosong')
         } else {
             alert('Berhasil Menambahkan Sparepart')
-            var data = $('#item-' + id_sparepart)
+            var data = $('#item-' + id_detail_sparepart)
             var kode_sparepart = $(data.find('.kode_sparepart')[0]).text()
             var nama_sparepart = $(data.find('.nama_sparepart')[0]).text()
             var merk_sparepart = $(data.find('.merk_sparepart')[0]).text()
@@ -441,7 +398,7 @@
             table.row(row).remove().draw();
 
             $('#dataTablekonfirmasi').DataTable().row.add([
-                kode_sparepart, `<span id=${id_sparepart}>${kode_sparepart}</span>`, nama_sparepart,
+                kode_sparepart, `<span id=${id_detail_sparepart}>${kode_sparepart}</span>`, nama_sparepart,
                 merk_sparepart, satuan,
                 jumlah_real, selisih, keterangan_detail
             ]).draw();

@@ -128,22 +128,10 @@
                         <div class="collapse" id="collapseDashboards" data-parent="#accordionSidenav">
                             <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
                                 <a class="nav-link" href="{{ route('sparepart.index')}}">
-                                    Sparepart
-                                </a>
-                                <a class="nav-link" href="{{ route('merk-sparepart.index')}}">
-                                    Merk Sparepart
-                                </a>
-                                <a class="nav-link" href="{{ route('jenis-sparepart.index')}}">
-                                    Jenis Sparepart
+                                    Sparepart & Pengajuan
                                 </a>
                                 <a class="nav-link" href="{{ route('supplier.index')}}">
                                     Supplier
-                                </a>
-                                <a class="nav-link" href="{{ route('konversi.index')}}">
-                                    Konversi
-                                </a>
-                                <a class="nav-link" href="{{ route('kemasan.index')}}">
-                                    Kemasan
                                 </a>
                                 <a class="nav-link" href="{{ route('gudang.index')}}">
                                     Gudang
@@ -167,15 +155,13 @@
                                 <i class="fas fa-angle-down"></i>
                             </div>
                         </a>
-
-
                         <div class="collapse" id="collapseUtilities" data-parent="#accordionSidenav" style="">
                             <nav class="sidenav-menu-nested nav">
+                                <a class="nav-link" href="{{ route('Kartu-gudang.index') }}">
+                                    Stock & Kartu Gudang
+                                </a>
                                 <a class="nav-link" href="{{ route('Opname.index') }}">
                                     Stock Opname
-                                </a>
-                                <a class="nav-link" href="{{ route('Kartu-gudang.index') }}">
-                                    Kartu Gudang
                                 </a>
                             </nav>
                         </div>
@@ -215,7 +201,7 @@
                                     Receiving
                                 </a>
                                 <a class="nav-link" href="{{ route('retur.index') }}">
-                                    Retur Pembelian
+                                    Retur
                                 </a>
                             </nav>
                         </div>

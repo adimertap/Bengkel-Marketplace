@@ -2,6 +2,8 @@
 
 namespace App\Model\Inventory\Rcv;
 
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
+use App\Model\Inventory\Gudang;
 use App\Model\Inventory\Rak;
 use App\Model\Inventory\Sparepart;
 use App\Scopes\OwnershipScope;
@@ -17,9 +19,9 @@ class Rcvdetail extends Model
 
     protected $fillable = [
         'id_rcv',
-        'id_bengkel',
-        'id_sparepart',
+        'id_detail_sparepart',
         'id_rak',
+        'id_gudang',
         'qty_po',
         'qty_rcv',
         'keterangan',
@@ -42,7 +44,7 @@ class Rcvdetail extends Model
 
     public function Sparepart()
     {
-        return $this->belongsTo(Sparepart::class, 'id_sparepart','id_sparepart');
+        return $this->belongsTo(DetailSparepart::class, 'id_detail_sparepart','id_detail_sparepart');
     }
 
     public function Rak()
@@ -50,8 +52,9 @@ class Rcvdetail extends Model
         return $this->belongsTo(Rak::class, 'id_rak','id_rak');
     }
 
-    protected static function booted()
+    public function Gudang()
     {
-        static::addGlobalScope(new OwnershipScope);
+        return $this->belongsTo(Gudang::class, 'id_gudang','id_gudang');
     }
+
 }

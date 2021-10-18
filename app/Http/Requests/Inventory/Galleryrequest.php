@@ -24,7 +24,6 @@ class Galleryrequest extends FormRequest
     public function rules()
     {
         return [
-            'id_sparepart' => 'required|integer|exists:tb_inventory_master_sparepart,id_sparepart',
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }

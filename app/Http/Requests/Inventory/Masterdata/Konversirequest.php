@@ -24,7 +24,7 @@ class Konversirequest extends FormRequest
     public function rules()
     {
         return [
-            'satuan' => 'required|min:3|max:20',
+            'satuan' => 'required|min:3|max:20|unique:tb_inventory_master_konversi,satuan',
         ];
     }
 
@@ -34,6 +34,7 @@ class Konversirequest extends FormRequest
             'satuan.required' => 'Error! Anda Belum Mengisi Konversi Satuan',
             'satuan.min' => 'Error! Character Minimal :min digit',
             'satuan.max' => 'Error! Character Maximal :max digit',
+            'satuan.unique' => 'Error! Konversi Satuan sudah Terdaftar'
         ];
     }
 }

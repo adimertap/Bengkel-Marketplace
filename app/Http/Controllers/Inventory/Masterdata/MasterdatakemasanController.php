@@ -41,11 +41,11 @@ class MasterdatakemasanController extends Controller
      */
     public function store(MasterdataKemasanrequest $request)
     {
-        $request['id_bengkel'] = Auth::user()->id_bengkel;
-        $data = $request->all();
-       
-        Kemasan::create($data);
-        return redirect()->back()->with('messageberhasil','Data Kemasan Berhasil ditambahkan');
+        $kemasan = new Kemasan;
+        $kemasan->nama_kemasan = $request->nama_kemasan;
+
+        $kemasan->save();
+        return redirect()->back()->with('messageberhasil','Data Kemasan Berhasil diajukan - Mohon ditunggu untuk Approval Data');
     }
 
     /**

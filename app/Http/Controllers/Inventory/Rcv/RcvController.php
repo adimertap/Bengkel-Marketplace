@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Inventory\Rcv;
 
 use App\Http\Controllers\Controller;
 use App\Model\Accounting\Akun;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
+use App\Model\Inventory\Gudang;
 use App\Model\Inventory\Kartugudang\Kartugudang;
 use App\Model\Inventory\Purchase\PO;
 use App\Model\Inventory\Purchase\POdetail;
@@ -108,6 +110,8 @@ class RcvController extends Controller
         $blt = date('y-m');
 
         $kode_rcv = 'Rcv-'.$blt.'/'.$idbaru;
+        $gudang = Gudang::get();
+        $rak = Rak::get();
 
         // return $rcv;
         for($i = 0;  $i < count($rcv->Detailrcv); $i++ ){
@@ -122,7 +126,7 @@ class RcvController extends Controller
 
         // return $rcv;
 
-        return view('pages.inventory.rcv.create', compact('rcv','kode_rcv'));
+        return view('pages.inventory.rcv.create', compact('rcv','kode_rcv','rak','gudang'));
     }
 
     /**
@@ -147,26 +151,71 @@ class RcvController extends Controller
         $qtypo = 0;
 
         foreach($request->sparepart as $key=>$item){
+
             // NAMBAH STOCK SPAREPART
-            $sparepart = Sparepart::findOrFail($item['id_sparepart']);
-            $sparepart->stock = $sparepart->stock + $item['qty_rcv'];
-            if($sparepart->stock >= $sparepart->stock_min){
-                $sparepart->status_jumlah = 'Cukup';
-            } else if($sparepart->stock == 0){
-                $sparepart->status_jumlah = 'Habis';
-            }else{
-                $sparepart->status_jumlah ='Kurang';
+            // $sparepart = Sparepart::findOrFail($item['id_sparepart']);
+            // $sparepart->stock = $sparepart->stock + $item['qty_rcv'];
+            // if($sparepart->stock >= $sparepart->stock_min){
+            //     $sparepart->status_jumlah = 'Cukup';
+            // } else if($sparepart->stock == 0){
+            //     $sparepart->status_jumlah = 'Habis';
+            // }else{
+            //     $sparepart->status_jumlah ='Kurang';
+            // }
+            // $sparepart->save();
+
+            // REVISI
+            $sparepart = DetailSparepart::get();
+         
+            for($i = 0;  $i < count(array($sparepart)); $i++ ){
+                if($sparepart[$i]->id_sparepart == $item['id_sparepart']){
+
+                    $sparepart = DetailSparepart::where('id_sparepart', $item['id_sparepart'])->first();
+                    
+
+                    // $sparepart = DetailSparepart::find($item['id_sparepart']);
+                    $sparepart->qty_stok = $sparepart->qty_stok + $item['qty_rcv'];
+                    if($sparepart->qty_stok >= $sparepart->stok_min){
+                        $sparepart->status_jumlah = 'Cukup';
+                    } else if($sparepart->qty_stok == 0){
+                        $sparepart->status_jumlah = 'Habis';
+                    }else{
+                        $sparepart->status_jumlah ='Kurang';
+                    }
+                    $sparepart->save();
+
+                }else if($sparepart[$i]->id_sparepart != $item['id_sparepart'] ){
+                
+                    $sparepart = new DetailSparepart;
+                    $sparepart->id_sparepart = $item['id_sparepart'];
+                    $sparepart->id_bengkel = Auth::user()->id_bengkel;
+                    $sparepart->id_gudang = $item['id_gudang'];
+                    $sparepart->id_rak = $item['id_rak'];
+                    $sparepart->qty_stok = $item['qty_rcv'];
+                    $sparepart->stok_min = 0;
+
+                    if($sparepart->qty_stok >= $sparepart->stok_min){
+                        $sparepart->status_jumlah = 'Cukup';
+                    } else if($sparepart->qty_stok == 0){
+                        $sparepart->status_jumlah = 'Habis';
+                    }else{
+                        $sparepart->status_jumlah ='Kurang';
+                    }
+                    $sparepart->harga_market = 0;
+                    $sparepart->keterangan = 'Belum Terisi';
+
+                    $sparepart->save();
+                }
             }
-            $sparepart->save();
-        // tes
-            // Mengurangi Qty PO
+        
+   
+            // DETAIL PO
             $detailpo = POdetail::where('id_po',$po->id_po)->where('id_sparepart',$item['id_sparepart'])->first();
             $detailpo->qty_po_sementara = $detailpo->qty_po_sementara - $item['qty_rcv'];
             $detailpo->save(); 
 
-            // $rcv->qty_po = $item['qty_rcv'] - $item['qty_po'];
-
             // KARTU GUDANG
+            // $sp = Sparepart::get();
             $kartu_gudang = new Kartugudang;
             $kartu_gudang->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
 
@@ -179,19 +228,17 @@ class RcvController extends Controller
 
             $kartu_gudang->jumlah_masuk = $kartu_gudang->jumlah_masuk + $item['qty_rcv'];
             $kartu_gudang->harga_beli = $kartu_gudang->harga_beli + $item['harga_diterima'];
-            $kartu_gudang->id_sparepart = $sparepart->id_sparepart;
+            $kartu_gudang->id_detail_sparepart = $sparepart->id_detail_sparepart;
             $kartu_gudang->kode_transaksi = $rcv->kode_rcv;
             $kartu_gudang->tanggal_transaksi = $rcv->tanggal_rcv;
             $kartu_gudang->jenis_kartu = 'Receiving';
             $kartu_gudang->save();
-
-            // NGAMBIL TOTAL
+            
             $temp = $temp + $item['total_harga'];
             $qtyrcv = $qtyrcv + $item['qty_rcv'];
             $qtypo = $qtypo + $item['qty_po'];
         }
-
-        // CONDITION PO CLOSE/OPEN
+        
         if($qtyrcv != $qtypo){
 
             $po->status ='Dikirim';
@@ -253,5 +300,11 @@ class RcvController extends Controller
         return view('print.Inventory.cetakrcv', compact('rcv','now'));
     }
 
+    public function getrak($id)
+    {
+        $merk = Rak::where('id_gudang', '=', $id)->pluck('nama_rak', 'id_rak');
+        
+        // return $merk;
+        return json_encode($merk);
+    }
 }
-

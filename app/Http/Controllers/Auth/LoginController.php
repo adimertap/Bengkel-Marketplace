@@ -53,7 +53,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return redirect()->to('/AdminMarketplace');
+        return view('pages.singlesignon.login');
     }
 
     public function username()

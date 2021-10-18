@@ -2,6 +2,7 @@
 
 namespace App\Model\Inventory\Stockopname;
 
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Rak;
 use App\Model\Inventory\Sparepart;
 use App\Scopes\OwnershipScope;
@@ -18,8 +19,7 @@ class Opnamedetail extends Model
 
     protected $fillable = [
         'id_opname',
-        'id_bengkel',
-        'id_sparepart',
+        'id_detail_sparepart',
         'jumlah_real',
         'selisih',
         'keterangan_detail'
@@ -40,12 +40,7 @@ class Opnamedetail extends Model
 
     public function Sparepart()
     {
-        return $this->belongsTo(Sparepart::class, 'id_sparepart','id_sparepart');
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new OwnershipScope);
+        return $this->belongsTo(DetailSparepart::class, 'id_detail_sparepart','id_detail_sparepart');
     }
 
 }

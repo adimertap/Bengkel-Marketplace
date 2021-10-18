@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Inventory\Opname;
 
 use App\Http\Controllers\Controller;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
+use App\Model\Inventory\Gudang;
 use App\Model\Inventory\Sparepart;
 use App\Model\Inventory\Stockopname\Opname;
 use App\Model\Inventory\Stockopname\Opnamedetail;
@@ -25,8 +27,17 @@ class OpnameController extends Controller
             'Pegawai',
         ])->get();
 
+        $id = Opname::getId();
+        foreach($id as $value);
+        $idlama = $value->id_opname;
+        $idbaru = $idlama + 1;
+        $blt = date('y-m');
+        $kode_opname = 'OPM-'.$blt.'/'.$idbaru;
+
+        $gudang = Gudang::get();
+
         return view('pages.inventory.stockopname.stockopname',['today' => Carbon::now()->isoFormat('dddd'),
-        'tanggal' => Carbon::now()->format('j F Y')], compact('opname'));
+        'tanggal' => Carbon::now()->format('j F Y')], compact('opname','gudang','kode_opname'));
     }
 // 
     /**
@@ -36,23 +47,7 @@ class OpnameController extends Controller
      */
     public function create()
     {
-        $opname = Opname::with([
-            'Pegawai',
-        ])->get();
-
-        $id = Opname::getId();
-        foreach($id as $value);
-        $idlama = $value->id_opname;
-        $idbaru = $idlama + 1;
-        $blt = date('y-m');
-
-        $kode_opname = 'OPM-'.$blt.'/'.$idbaru;
-        $id_opname = $idbaru;
         
-        $sparepart = Sparepart::all();
-        $pegawai = Pegawai::all();
-        
-        return view('pages.inventory.stockopname.create', compact('opname','pegawai', 'sparepart', 'kode_opname','id_opname'));
     }
 
     /**
@@ -64,18 +59,33 @@ class OpnameController extends Controller
     public function store(Request $request)
     {
 
-        $opname = new Opname;
-        $opname->id_pegawai = $request['id_pegawai'] = Auth::user()->pegawai->id_pegawai;
-        $opname->kode_opname = $request->kode_opname;
-        $opname->tanggal_opname = $request->tanggal_opname;
-        $opname->approve =  'Pending';
-        $opname->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
+        // $opname = new Opname;
+        // $opname->id_pegawai = $request['id_pegawai'] = Auth::user()->pegawai->id_pegawai;
+        // $opname->kode_opname = $request->kode_opname;
+        // $opname->approve =  'Pending';
 
-        $opname->save();
-        $opname->Detailsparepart()->sync($request->sparepart);
+        // $opname->save();
+        // $opname->Detailsparepart()->sync($request->detailsparepart);
 
-        return $request;
+        // return $request;
+
+       
+       
+
+        $opname = Opname::create([
+            'id_gudang'=>$request->id_gudang,
+            'kode_opname' => $request->kode_opname,
+            'tanggal_opname'=>$request->tanggal_opname,
+            'approve' => 'Pending',
+            'id_bengkel' => $request['id_bengkel'] = Auth::user()->id_bengkel,
+            'id_pegawai' => $request['id_pegawai'] = Auth::user()->pegawai->id_pegawai
+           
+        ]);
+        
+        return $opname;
+
     }
+
 
     /**
      * Display the specified resource.
@@ -100,13 +110,22 @@ class OpnameController extends Controller
      */
     public function edit($id_opname)
     {
+        // $opname = Opname::with([
+        //     'Pegawai', 'Detailsparepart'
+        // ])->findOrFail($id_opname);
+
+        // $sparepart = Sparepart::all();
+
+        // return view('pages.inventory.stockopname.edit', compact('opname','sparepart'));
+
         $opname = Opname::with([
-            'Pegawai', 'Detailsparepart'
-        ])->findOrFail($id_opname);
-
-        $sparepart = Sparepart::all();
-
-        return view('pages.inventory.stockopname.edit', compact('opname','sparepart'));
+            'Pegawai','Gudang.Sparepart'
+        ])->find($id_opname);
+        
+        $detailsparepart = DetailSparepart::all();
+        $pegawai = Pegawai::all();
+        
+        return view('pages.inventory.stockopname.create', compact('opname','pegawai', 'detailsparepart'));
     }
 
     /**
@@ -121,16 +140,12 @@ class OpnameController extends Controller
 
         $opname = Opname::find($id_opname);
         if($opname->approve == 'Not Approved'){
-            $opname->tanggal_opname = $request->tanggal_opname;
             $opname->approve = 'Pending';
-
             $opname->update();
             $opname->Detailsparepart()->sync($request->sparepart);
 
             return $request;
         }else{
-            $opname->tanggal_opname = $request->tanggal_opname;
-
             $opname->update();
             $opname->Detailsparepart()->sync($request->sparepart);
     

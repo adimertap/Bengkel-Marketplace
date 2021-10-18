@@ -2,6 +2,8 @@
 
 namespace App\Model\Inventory\Stockopname;
 
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
+use App\Model\Inventory\Gudang;
 use App\Model\Inventory\Sparepart;
 use App\Model\Kepegawaian\Pegawai;
 use App\Scopes\OwnershipScope;
@@ -19,6 +21,7 @@ class Opname extends Model
 
     protected $fillable = [
         'id_pegawai',
+        'id_gudang',
         'id_bengkel',
         'kode_opname',
         'tanggal_opname',
@@ -36,12 +39,17 @@ class Opname extends Model
 
     public function Detailsparepart()
     {
-        return $this->belongsToMany(Sparepart::class,'tb_inventory_detopname','id_opname','id_sparepart')->withPivot('jumlah_real','selisih','keterangan_detail');
+        return $this->belongsToMany(DetailSparepart::class,'tb_inventory_detopname','id_opname','id_detail_sparepart')->withPivot('jumlah_real','selisih','keterangan_detail');
     }
 
     public function Pegawai()
     {
         return $this->belongsTo(Pegawai::class,'id_pegawai','id_pegawai');
+    }
+
+    public function Gudang()
+    {
+        return $this->belongsTo(Gudang::class,'id_gudang','id_gudang');
     }
    
     

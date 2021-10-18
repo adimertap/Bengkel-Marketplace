@@ -14,7 +14,8 @@
                         </h1>
                     </div>
                     <div class="col-12 col-xl-auto mb-3">
-                        <a href="{{ route('Kartu-gudang.index') }}" class="btn btn-sm btn-light text-primary mr-2">Kembali</a>
+                        <a href="{{ route('Kartu-gudang.index') }}"
+                            class="btn btn-sm btn-light text-primary mr-2">Kembali</a>
                     </div>
                 </div>
             </div>
@@ -30,15 +31,18 @@
                     <div class="col-xl-4 col-xxl-12 text-center"><img class="img-fluid"
                             src="/backend/src/assets/img/freepik/data-report-pana.svg" style="max-width: 17rem;"></div>
                     <div class="col-xl-8 col-xxl-12">
-                        <h2 class="text-primary mb-3" style="font-size: 15pt">{{ $item->nama_sparepart }}</h2>
-                        <hr></hr>
+                        <h2 class="text-primary mb-3" style="font-size: 15pt">{{ $item->Sparepart->nama_sparepart }}
+                        </h2>
+                        <hr>
+                        </hr>
                         <span class="font-weight-500 text-gray">Jenis Sparepart</span>
-                        {{ $item->Jenissparepart->jenis_sparepart }} ·
+                        {{ $item->Sparepart->Jenissparepart->jenis_sparepart }} ·
                         <span class="font-weight-500 text-gray">Merk Sparepart</span>
-                        {{ $item->Merksparepart->merk_sparepart }}
+                        {{ $item->Sparepart->Merksparepart->merk_sparepart }}
                         <div class="small">
-                            <p class="font-weight-500 text-gray">Jumlah Stock · <span class="font-weight-500 text-primary">{{ $item->stock }}</span> </p> 
-                           
+                            <p class="font-weight-500 text-gray">Jumlah Stock · <span
+                                    class="font-weight-500 text-primary">{{ $item->qty_stok }}</span> </p>
+
                             {{-- <span class="font-weight-500 text-gray">Saldo Awal ·</span>
                             Bulan: {{ $tanggal }} ·
                             <span class="font-weight-500 text-gray">Jumlah</span>
@@ -49,9 +53,9 @@
             </div>
         </div>
     </div>
-</div>
 
-<div class="container-fluid">
+
+
     <div class="card mb-4">
         <div class="card card-header-actions">
             <div class="card-header ">List Transaksi Sparepart</div>
@@ -75,58 +79,54 @@
                                             colspan="1" aria-sort="ascending"
                                             aria-label="Name: activate to sort column descending" style="width: 20px;">
                                             No</th>
-                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                            colspan="1" aria-label="Position: activate to sort column ascending"
+                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
                                             style="width: 130px;">Tanggal Transaksi</th>
-                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                            colspan="1" aria-label="Position: activate to sort column ascending"
+                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Position: activate to sort column ascending"
                                             style="width: 130px;">Kode Transaksi</th>
-                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                            colspan="1" aria-label="Office: activate to sort column ascending"
-                                            style="width: 30px;">Masuk</th>
-                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                            colspan="1" aria-label="Start date: activate to sort column ascending"
+                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Office: activate to sort column ascending" style="width: 30px;">
+                                            Masuk</th>
+                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Start date: activate to sort column ascending"
                                             style="width: 30px;">Keluar</th>
                                         <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                             colspan="1" aria-label="Salary: activate to sort column ascending"
-                                            style="width: 20px;">Satuan</th>
-                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                            colspan="1" aria-label="Salary: activate to sort column ascending"
-                                            style="width: 70px;">Saldo</th>
-                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                            colspan="1" aria-label="Salary: activate to sort column ascending"
+                                            style="width: 20px;">
+                                            Satuan</th>
+                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Salary: activate to sort column ascending" style="width: 70px;">
+                                            Saldo</th>
+                                        <th class="sorting text-center" tabindex="0" aria-controls="dataTable"
+                                            rowspan="1" colspan="1"
+                                            aria-label="Salary: activate to sort column ascending"
                                             style="width: 100px;">Beli / Jual</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($kartu_gudang as $item)
+                                    @forelse ($kartu_gudang as $gas)
                                     <tr role="row" class="odd">
                                         <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
-                                        <td class="text-center">{{ $item->tanggal_transaksi }}</td>
-                                        <td class="text-center">{{ $item->kode_transaksi }}</td>
-                                        {{-- <td class="text-center">@if ($item->jenis_kartu == 'Receiving')
-                                            {{ $item->Rcv->kode_rcv }}
-                                            @elseif ($item->jenis_kartu == 'Retur')
-                                            {{ $item->Retur->kode_retur }}
-                                            @elseif ($item->jenis_kartu =='Online')
-                                            {{ $item->TransaksiOnline->code_transaksi }}
-                                            @elseif ($item->jenis_kartu == 'Penjualan')
-                                            {{ $item->kode_penjualan }}
-                                            @elseif ($item->jenis_kartu == 'Service')
-                                            {{ $item->kode_service }}
-                                            @else
-                                        @endif
-                                        </td> --}}
-                                        <td class="text-center"><span class="badge badge-warning">{{ $item->jumlah_masuk }}</span></td>
-                                        <td class="text-center"><span class="badge badge-warning">{{ $item->jumlah_keluar }}</span></td>
-                                        <td>{{ $item->Sparepart->Konversi->satuan }}</td>
-                                        <td class="text-center">{{ $item->saldo_akhir }}</td>
-                                        <td>Rp.{{ number_format($item->harga_beli,2,',','.')}}</td>
+                                        <td class="text-center">{{ $gas->tanggal_transaksi }}</td>
+                                        <td class="text-center">{{ $gas->kode_transaksi }}</td>
+                                        <td class="text-center"><span
+                                                class="badge badge-warning">{{ $gas->jumlah_masuk }}</span></td>
+                                        <td class="text-center"><span
+                                                class="badge badge-warning">{{ $gas->jumlah_keluar }}</span></td>
+                                        <td>{{ $gas->Sparepart->Sparepart->Konversi->satuan }}</td>
+                                        <td class="text-center">{{ $gas->saldo_akhir }}</td>
+                                        <td>Rp.{{ number_format($gas->harga_beli,2,',','.')}}</td>
                                     </tr>
                                     @empty
-                                        
+
                                     @endforelse
-                                   
+
                                 </tbody>
                             </table>
                         </div>
@@ -136,6 +136,7 @@
         </div>
     </div>
 </div>
+
 </main>
 
 

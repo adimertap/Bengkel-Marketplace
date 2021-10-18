@@ -2,6 +2,7 @@
 
 namespace App\Model\Inventory;
 
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Scopes\OwnershipScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,6 +40,16 @@ class Gudang extends Model
                 'id_gudang'=> 0
             ]
             ];
+    }
+
+    public function Sparepart()
+    {
+        return $this->hasMany(DetailSparepart::class, 'id_gudang','id_gudang');
+    }
+
+    public function Rak()
+    {
+        return $this->belongsTo(Rak::class, 'id_rak','id_rak');
     }
 
     protected static function booted()

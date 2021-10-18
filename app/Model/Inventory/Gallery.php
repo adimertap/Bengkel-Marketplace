@@ -2,6 +2,8 @@
 
 namespace App\Model\Inventory;
 
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
+use App\Model\Inventory\Kelolastock\Stock;
 use App\Scopes\OwnershipScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,7 +17,7 @@ class Gallery extends Model
     protected $primaryKey = 'id_gallery';
 
     protected $fillable = [
-        'id_sparepart',
+        'id_detail_sparepart',
         'photo',
         'id_bengkel',
     ];
@@ -28,8 +30,8 @@ class Gallery extends Model
 
     public $timestamps = true;
 
-    public function sparepart(){
-        return $this->belongsTo(Sparepart::class,'id_sparepart','id_sparepart');
+    public function Detailsparepart(){
+        return $this->belongsTo(DetailSparepart::class,'id_detail_sparepart','id_detail_sparepart');
     }
 
     protected static function booted()

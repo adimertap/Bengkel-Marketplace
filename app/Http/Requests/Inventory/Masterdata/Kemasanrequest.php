@@ -24,7 +24,7 @@ class Kemasanrequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_kemasan' => 'required|min:3|max:20',
+            'nama_kemasan' => 'required|min:3|max:20|unique:tb_inventory_master_kemasan,nama_kemasan',
         ];
     }
 
@@ -34,6 +34,7 @@ class Kemasanrequest extends FormRequest
             'nama_kemasan.required' => 'Error! Anda Belum Mengisi Nama Kemasan',
             'nama_kemasan.min' => 'Error! Character Minimal :min digit',
             'nama_kemasan.max' => 'Error! Character Maximal :max digit',
+            'nama_kemasan.unique' => 'Error! Kemasan sudah Terdaftar'
         ];
     }
 }

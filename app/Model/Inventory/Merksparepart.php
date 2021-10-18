@@ -19,8 +19,8 @@ class Merksparepart extends Model
     protected $fillable = [
         'id_jenis_sparepart',
     	'kode_merk',
-        'id_bengkel',
     	'merk_sparepart',
+        'status_merk'
     ];
 
     protected $hidden =[ 

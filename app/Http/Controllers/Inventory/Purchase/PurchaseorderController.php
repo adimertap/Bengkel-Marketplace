@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory\Purchase;
 
 use App\Http\Controllers\Controller;
 use App\Model\Accounting\Akun;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Hargasparepart;
 use App\Model\Inventory\Purchase\PO;
 use App\Model\Inventory\Purchase\POdetail;
@@ -110,21 +111,25 @@ class PurchaseorderController extends Controller
         // ])->find($id);
 
         $po = PO::with([
-           'Pegawai','Detailsparepart','Supplier.Sparepart.Merksparepart.Jenissparepart','Supplier.Sparepart.Kartugudang','Supplier.Sparepart.Kartugudangterakhir'
+           'Pegawai','Detailsparepart','Supplier','Sparepart'
+        //    'Supplier.Sparepart.Merksparepart.Jenissparepart','Supplier.Sparepart.Kartugudang','Supplier.Sparepart.Kartugudangterakhir'
         ])->find($id);
 
-        // return $po;
+        
 
-        $sparepart = Sparepart::all();
-       
+        $sparepart = Sparepart::with('Detailsparepart.Kartugudangterakhir','Detailsparepart')->get();
+        // return $sparepart;
+        // $detailsparepart = DetailSparepart::with('Kartugudangterakhir')->get(); 
+
         for($i = 0;  $i < count($po->Detailsparepart); $i++ ){
-            for($j = 0;  $j < count($po->Supplier->Sparepart); $j++ ){
-               if ($po->Detailsparepart[$i]->id_sparepart == $po->Supplier->Sparepart[$j]->id_sparepart ){
-                $po->Supplier->Sparepart[$j]->qty = $po->Detailsparepart[$i]->pivot->qty;
-                $po->Supplier->Sparepart[$j]->harga_satuan = $po->Detailsparepart[$i]->pivot->harga_satuan;
+            for($j = 0;  $j < count($sparepart); $j++ ){
+               if ($po->Detailsparepart[$i]->id_sparepart == $sparepart[$j]->id_sparepart ){
+                $sparepart[$j]->qty = $po->Detailsparepart[$i]->pivot->qty;
+                $sparepart[$j]->harga_satuan = $po->Detailsparepart[$i]->pivot->harga_satuan;
                };
             }
         }
+
         return view('pages.inventory.purchase.po.create', compact('po','sparepart'));
     }
 

@@ -21,18 +21,18 @@ class Sparepartrequest extends FormRequest
      *
      * @return array
      */
+   
     public function rules()
     {
         return [
             'id_jenis_sparepart' => 'required|exists:tb_inventory_master_jenis_sparepart,id_jenis_sparepart',
             'id_merk' => 'required|exists:tb_inventory_master_merk_sparepart,id_merk',
             'id_konversi' => 'required|exists:tb_inventory_master_konversi,id_konversi',
-            'id_rak' => 'required|exists:tb_inventory_master_rak,id_rak',
-            'nama_sparepart' => 'required|min:5|max:50',
-            'stock_min' => 'required|min:1|max:20',
+            'nama_sparepart' => 'required|min:5|max:50|unique:tb_inventory_master_sparepart,nama_sparepart',
             'id_kemasan' => 'required|exists:tb_inventory_master_kemasan,id_kemasan',
-            'berat_sparepart' =>  'required|min:1|max:4',
-            'id_supplier' => 'required'
+            'dimensi_berat' =>  'required|min:1|max:4',
+            'lifetime' => 'required',
+            'jenis_barang' => 'required'
         ];
     }
     public function messages()
@@ -41,21 +41,19 @@ class Sparepartrequest extends FormRequest
             'id_jenis_sparepart.required' => 'Error! Anda Belum Mengisi Jenis Sparepart',
             'id_merk.required' => 'Error! Anda Belum Mengisi Merk Sparepart',
             'id_konversi.required' => 'Error! Anda Belum Mengisi Satuan Konversi Sparepart',
-            'id_rak.required' => 'Error! Anda Belum Mengisi Penempatan Rak Sparepart',
             'id_kemasan.required' =>'Error! Anda Belum Mengisi Kemasan Sparepart',
-            'id_supplier.required' =>'Error! Anda Belum Mengisi Supplier Asal',
+            'lifetime' => 'Error! Anda Belum Mengisi Masa Berlaku Sparepart',
+            'jenis_barang' => 'Error! Anda Belum Mengisi Jenis Barang Sparepart',
+           
             'nama_sparepart.required' => 'Error! Anda Belum Mengisi Nama Sparepart',
-
             'nama_sparepart.min' => 'Error! Character Minimal :min digit',
             'nama_sparepart.max' => 'Error! Character Maximal :max digit',
+            'nama_sparepart.unique' => 'Error! Sparepart sudah Terdaftar',
 
-            'stock_min.required' => 'Error! Anda Belum Mengisi Stock Minimal',
-            'stock_min.min' => 'Error! Nominal Minimal :min digit',
-            'stock_min.max' => 'Error! Nominal Maximal :max digit',
-
-            'berat_sparepart.required' => 'Error! Anda Belum Mengisi Berat Sparepart',
-            'berat_sparepart.min' => 'Error! Nominal Minimal :min digit',
-            'berat_sparepart.max' => 'Error! Nominal Maximal :max digit',
+            'lifetime.reqired' => 'Error! Anda Belum Mengisi Masa Berlaku Sparepart',
+            'dimensi_berat.required' => 'Error! Anda Belum Mengisi Berat Sparepart',
+            'dimensi_berat.min' => 'Error! Nominal Minimal :min digit',
+            'dimensi_berat.max' => 'Error! Nominal Maximal :max digit',
 
 
         ];

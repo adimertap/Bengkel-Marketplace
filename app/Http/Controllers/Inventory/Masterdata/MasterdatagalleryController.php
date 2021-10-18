@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Inventory\Masterdata;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\Galleryrequest;
 use App\Http\Requests\Inventory\Sparepartrequest;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Gallery;
 use App\Model\Inventory\Sparepart;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class MasterdatagalleryController extends Controller
      */
     public function index()
     {
-        $gallery = Gallery::with('sparepart')->get();
+        $gallery = Gallery::with('Detailsparepart')->get();
 
         return view('pages.inventory.masterdata.gallery.gallery')->with([
             'gallery' => $gallery
@@ -31,9 +32,9 @@ class MasterdatagalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($idSparePart)
+    public function create($id_detail_sparepart)
     {
-        $sparepart = Sparepart::find($idSparePart);
+        $sparepart = DetailSparepart::with('Sparepart')->find($id_detail_sparepart);
         // $sparepart = Sparepart::all();
 
         return view('pages.inventory.masterdata.gallery.create')->with([
@@ -62,13 +63,13 @@ class MasterdatagalleryController extends Controller
           }
   
           $image->photo = $imageName;
-          $image->id_sparepart = $request->id_sparepart;
+          $image->id_detail_sparepart = $request->id_detail_sparepart;
           $image->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
         //   $image->id_sparepart = $idSparePart;
           
           $image->save();
   
-          return redirect()->route('sparepart.gallery', $request->id_sparepart)->with('messageberhasil','Foto Berhasil ditambahkan');
+          return redirect()->route('Detailsparepart-gallery', $request->id_detail_sparepart)->with('messageberhasil','Foto Berhasil ditambahkan');
 
 
     }

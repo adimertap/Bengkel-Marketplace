@@ -268,7 +268,7 @@
                                             <td class="telephone">{{ $item->telephone }}</td>
                                             <td class="alamat_supplier">{{ $item->alamat_supplier }}</td>
                                             <td>
-                                                <button class="btn btn-success btn-sm"
+                                                <button class="btn btn-success btn-xs"
                                                     onclick="tambahsupplier(event, {{ $item->id_supplier }})" type="button"
                                                     data-dismiss="modal">Tambah
                                                 </button>

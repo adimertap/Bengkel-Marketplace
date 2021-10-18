@@ -11,19 +11,26 @@
                     <div class="col-auto mb-3">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i class="fas fa-warehouse"></i></div>
-                            Master Data Merk Sparepart
+                            Master Data
                         </h1>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
-    {{-- MAIN PAGE CONTENT --}}
-
-    <div class="container-fluid">
+    <!-- Main page content-->
+    <div class="container mt-4">
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+            <a class="nav-link" href="{{ route('sparepart.index') }}">Sparepart</a>
+            <a class="nav-link" href="{{ route('jenis-sparepart.index') }}">Jenis Sparepart</a>
+            <a class="nav-link active ml-0" href="{{ route('merk-sparepart.index') }}">Merk Sparepart</a>
+            <a class="nav-link" href="{{ route('konversi.index') }}">Satuan</a>
+            <a class="nav-link" href="{{ route('kemasan.index') }}">Kemasan</a>
+        </nav>
+        <hr class="mt-0 mb-4">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
 
                 <!-- Illustrations -->
                 <div class="card shadow mb-4">
@@ -35,10 +42,8 @@
                             <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 10rem;"
                                 src="/backend/src/assets/img/freepik/tambahdata.png" alt="">
                         </div>
-                        <div class=" m-0 font-weight-bold text-primary" style="text-align: center">Pengajuan Tambah Data
+                        <div class=" m-0 font-weight-bold text-primary" style="text-align: center">Pengajuan Tambah Data Merk
                         </div>
-
-
                         <hr class="my-2">
                         <p class="small" style="text-align: center">Anda ingin menambahkan Merk Sparepart yang tidak
                             terdaftar?
@@ -61,7 +66,7 @@
 
                 </div>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-8">
                 <div class="card mb-4">
                     <div class="card card-header-actions">
                         <div class="card-header">List Merk Sparepart

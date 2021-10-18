@@ -2,12 +2,14 @@
 
 namespace App\Model\Inventory;
 
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Kartugudang\Kartugudang;
 use App\Model\Inventory\Purchase\PO;
 use App\Model\Inventory\Purchase\POdetail;
 use App\Model\Inventory\Stockopname\Opname;
 use App\Scopes\OwnershipScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Sparepart extends Model
@@ -25,7 +27,8 @@ class Sparepart extends Model
         'nama_sparepart',
         'status_sparepart',
         'lifetime',
-        'jenis_barang'
+        'jenis_barang',
+        'dimensi_berat'
     ];
 
     protected $hidden = [
@@ -41,7 +44,7 @@ class Sparepart extends Model
         return $this->belongsTo(Jenissparepart::class, 'id_jenis_sparepart', 'id_jenis_sparepart')->withTrashed();
     }
 
-    public $with = ['Merksparepart', 'Jenissparepart', 'Kemasan', 'Kartugudangterakhir'];
+    public $with = ['Merksparepart', 'Jenissparepart', 'Kemasan','Konversi','Detailsparepart'];
     public function Merksparepart()
     {
         return $this->belongsTo(Merksparepart::class, 'id_merk', 'id_merk')->withTrashed();
@@ -60,6 +63,11 @@ class Sparepart extends Model
     public function Kemasan()
     {
         return $this->belongsTo(Kemasan::class, 'id_kemasan', 'id_kemasan')->withTrashed();
+    }
+
+    public function Detailsparepart()
+    {
+        return $this->belongsTo(DetailSparepart::class, 'id_sparepart', 'id_sparepart');
     }
 
     // public function Rak()
@@ -92,10 +100,10 @@ class Sparepart extends Model
     //     return $this->hasOne(Kartugudang::class, 'id_sparepart', 'id_sparepart')->orderBy('updated_at', 'DESC');;
     // }
 
-    public function Kartugudangterakhir()
-    {
-        return $this->hasOne(Kartugudang::class, 'id_sparepart', 'id_sparepart')->where('jenis_kartu', 'Receiving')->orderBy('updated_at', 'DESC');
-    }
+    // public function Kartugudangterakhir()
+    // {
+    //     return $this->hasOne(Kartugudang::class, 'id_sparepart', 'id_sparepart')->where('jenis_kartu', 'Receiving')->orderBy('updated_at', 'DESC');
+    // }
 
     // public function Kartugudangservice()
     // {
@@ -106,7 +114,6 @@ class Sparepart extends Model
     // {
     //     return $this->hasOne(Kartugudang::class, 'id_sparepart', 'id_sparepart')->where('jenis_kartu', 'Penjualan')->orderBy('updated_at', 'DESC');
     // }
-
 
     public static function getId()
     {

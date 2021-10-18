@@ -113,7 +113,7 @@
                                                 style="width: 80px;">Sparepart</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Start date: activate to sort column ascending"
-                                                style="width: 50px;">Merk Sparepart</th>
+                                                style="width: 30px;">Merk Sparepart</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Start date: activate to sort column ascending"
                                                 style="width: 20px;">Qty</th>
@@ -122,10 +122,10 @@
                                                 style="width: 20px;">Kemasan</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Start date: activate to sort column ascending"
-                                                style="width: 30px;">Harga Sparepart</th>
+                                                style="width: 60px;">Harga Sparepart</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Start date: activate to sort column ascending"
-                                                style="width: 80px;">Total</th>
+                                                style="width: 100px;">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -157,7 +157,7 @@
                                             Total Harga
                                         </td>
                                         <td >
-                                            Rp.{{ number_format($po->grand_total,2,',','.') }}
+                                            Rp. {{ number_format($po->grand_total,2,',','.') }}
                                         </td>
                                         </tr>
                                     </tbody>

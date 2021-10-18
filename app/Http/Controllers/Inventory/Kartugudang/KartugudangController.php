@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory\Kartugudang;
 
 use App\Http\Controllers\Controller;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Jenissparepart;
 use App\Model\Inventory\Kartugudang\Kartugudang;
 use App\Model\Inventory\Konversi;
@@ -21,8 +22,8 @@ class KartugudangController extends Controller
      */
     public function index()
     {
-        $sparepart = Sparepart::with([
-            'Jenissparepart', 'Merksparepart','Konversi','Gallery','Rak'
+        $sparepart = DetailSparepart::with([
+            'Sparepart', 'Gudang','Rak'
         ])->get();
  
         $today = Carbon::now()->isoFormat('dddd');
@@ -58,10 +59,10 @@ class KartugudangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_sparepart)
+    public function show($id_detail_sparepart)
     {
-        $sparepart = Sparepart::findOrFail($id_sparepart);
-        $kartu_gudang = Kartugudang::where('id_sparepart', $id_sparepart)->get();
+        $sparepart = DetailSparepart::with('Sparepart')->find($id_detail_sparepart);
+        $kartu_gudang = Kartugudang::where('id_detail_sparepart', $id_detail_sparepart)->get();
 
         $tanggal = Carbon::now()->format('F Y');
 
@@ -110,9 +111,9 @@ class KartugudangController extends Controller
         //
     }
 
-    public function CetakKartu($id_sparepart){
-        $sparepart = Sparepart::findOrFail($id_sparepart);
-        $kartu_gudang = Kartugudang::where('id_sparepart', $id_sparepart)->get();
+    public function CetakKartu($id_detail_sparepart){
+        $sparepart = DetailSparepart::findOrFail($id_detail_sparepart);
+        $kartu_gudang = Kartugudang::where('id_detai$id_detail_sparepart', $id_detail_sparepart)->get();
 
         $tanggal = Carbon::now()->format('F Y');
         $now = Carbon::now();

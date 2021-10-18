@@ -64,12 +64,6 @@
                                         Keterangan</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                         aria-label="Position: activate to sort column ascending" style="width: 10%;">
-                                        Merk</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Position: activate to sort column ascending" style="width: 10%;">
-                                        Berat</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Position: activate to sort column ascending" style="width: 10%;">
                                         Harga</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                         aria-label="Position: activate to sort column ascending" style="width: 10%;">
@@ -80,30 +74,28 @@
                                 @forelse ($sparepart as $item)
                                 <tr role="row" class="odd">
                                     <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
-                                    <td>{{ $item->nama_sparepart }}</td>
+                                    <td>{{ $item->Sparepart->nama_sparepart }}</td>
                                     <td>{{ $item->keterangan}}</td>
-                                    <td>{{ $item->Merksparepart->merk_sparepart}}</td>
-                                    <td>{{ $item->berat_sparepart}}</td>
                                     <td>{{ $item->harga_market}}</td>
                                     <td>
                                         <a href="" class="btn btn-primary btn-datatable  mr-2" type="button"
-                                            data-toggle="modal" data-target="#Modaledit-{{ $item->id_sparepart }}">
+                                            data-toggle="modal" data-target="#Modaledit-{{ $item->id_detail_sparepart }}">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <div class="modal fade" id="Modaledit-{{ $item->id_sparepart }}"
+                                        <div class="modal fade" id="Modaledit-{{ $item->id_detail_sparepart }}"
                                             data-backdrop="static" tabindex="-1" role="dialog"
                                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-md" role="document">
+                                            <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header bg-light">
                                                         <h5 class="modal-title" id="staticBackdropLabel">
-                                                            {{ $item->nama_sparepart }} </h5>
+                                                            {{ $item->Sparepart->nama_sparepart }} </h5>
                                                         <button class="close" type="button" data-dismiss="modal"
                                                             aria-label="Close"><span
                                                                 aria-hidden="true">×</span></button>
                                                     </div>
                                                     <form
-                                                        action="{{ route('sparepart-marketplace-update',$item->id_sparepart) }}"
+                                                        action="{{ route('sparepart-marketplace-update',$item->id_detail_sparepart) }}"
                                                         method="POST">
                                                         @method('PUT')
                                                         @csrf
@@ -112,18 +104,13 @@
                                                                 <hr>
                                                                 </hr>
                                                                 <div class="form-group">
-                                                                    <label class="small mr-1"
-                                                                        for="berat_sparepart">Berat Sparepart </label><span
-                                                                        class="mr-4 mb-3" style="color: red">* dalam gram</span>
-                                                                    <input class="form-control" name="berat_sparepart" type="number"
-                                                                        id="berat_sparepart" value="{{ $item->berat_sparepart }}" required/>
-                                                                </div>
-                                                                <div class="form-group">
+                                                                    <textarea class="form-control" id="editor" name="keterangan"></textarea>
                                                                     <label class="small mr-1"
                                                                         for="harga_sparepart">Harga Sparepart</label><span
                                                                         class="mr-4 mb-3" style="color: red">*</span>
                                                                     <input class="form-control" name="harga_market" type="number"
                                                                         id="berat_sparepart" value="{{ $item->harga_market }}" required />
+                                                                    
                                                                 </div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -172,6 +159,14 @@
 
     });
 
+</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/29.2.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
 </script>
 
 @endsection

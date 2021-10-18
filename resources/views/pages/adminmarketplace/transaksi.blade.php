@@ -172,12 +172,12 @@
                                 <tr role="row">
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                         aria-sort="ascending" aria-label="Name: activate to sort column descending"
-                                        style="width: 30px;">No</th>
+                                        style="width: 20px;">No</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Position: activate to sort column ascending" style="width: 80px;">
+                                        aria-label="Position: activate to sort column ascending" style="width: 120px;">
                                         Nama Sparepart</th>
                                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Position: activate to sort column ascending" style="width: 150px;">
+                                        aria-label="Position: activate to sort column ascending" style="width: 20px;">
                                         Jumlah</th>
                                 </tr>
                             </thead>
@@ -185,7 +185,7 @@
                                 @forelse ($item->Detailtransaksi as $sparepart)
                                 <tr role="row" class="odd">
                                     <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
-                                    <td>{{ $sparepart->nama_sparepart }}</td>
+                                    <td>{{ $sparepart->Sparepart->nama_sparepart }}</td>
                                     <td>{{ $sparepart->pivot->jumlah_produk }}</td>
 
                                 </tr>

@@ -41,12 +41,11 @@ class MasterdatakonversiController extends Controller
      */
     public function store(MasterdataKonversirequest $request)
     {
-        $request['id_bengkel'] = Auth::user()->id_bengkel;
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->satuan);
-
-        Konversi::create($data);
-        return redirect()->back()->with('messageberhasil','Data Konversi Satuan Berhasil ditambahkan');
+        $konversi = new Konversi;
+        $konversi->satuan = $request->satuan;
+        
+        $konversi->save();
+        return redirect()->back()->with('messageberhasil','Data Konversi Satuan Berhasil diajukan - Mohon ditunggu untuk Approval Data');
     }
 
     /**

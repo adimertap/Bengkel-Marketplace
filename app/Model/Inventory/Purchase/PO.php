@@ -3,6 +3,7 @@
 namespace App\Model\Inventory\Purchase;
 
 use App\Model\Accounting\Akun;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Hargasparepart;
 use App\Model\Inventory\Sparepart;
 use App\Model\Inventory\Supplier;
@@ -45,11 +46,6 @@ class PO extends Model
     public function Detailsparepart()
     {
         return $this->belongsToMany(Sparepart::class, 'tb_inventory_detpo', 'id_po', 'id_sparepart')->withPivot('qty', 'qty_po_sementara', 'harga_satuan', 'total_harga');
-    }
-
-    public function Hargasparepart()
-    {
-        return $this->belongsTo(Hargasparepart::class, 'id_harga', 'id_harga');
     }
 
     public function Sparepart()
