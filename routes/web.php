@@ -179,6 +179,11 @@ Route::group(
             ->group(function () {
                 Route::get('/', 'MasterdatasparepartController@index')
                     ->name('masterdatasparepart');
+<<<<<<< HEAD
+=======
+                Route::get('sparepart/{id_sparepart}/gallery', 'MasterdatasparepartController@gallery')
+                    ->name('sparepart.gallery');
+>>>>>>> parent of 607b072 (fix sso)
                 Route::resource('sparepart', 'MasterdatasparepartController');
                 Route::get('sparepart/getmerk/{id}', 'MasterdatasparepartController@getmerk');
             });
@@ -250,6 +255,7 @@ Route::group(
             ->group(function () {
                 Route::resource('gudang', 'MasterdatagudangController');
             });
+<<<<<<< HEAD
         
 
         // DETAIL SPAREPART
@@ -263,6 +269,10 @@ Route::group(
             });
         
         
+=======
+
+
+>>>>>>> parent of 607b072 (fix sso)
 
         // PURCHASE ORDER ---------------------------------------------------------------- Purchase Order
         Route::prefix('inventory')
@@ -311,7 +321,10 @@ Route::group(
                 Route::get('detail/{id_po}', 'RcvController@detailpo')
                     ->name('Rcv-detail-po');
                 Route::get('cetak-rcv/{id}', 'RcvController@CetakRcv')->name('cetak-rcv');
+<<<<<<< HEAD
                 Route::get('receiving/getrak/{id}', 'RcvController@getrak');
+=======
+>>>>>>> parent of 607b072 (fix sso)
             });
 
         // RETUR ---------------------------------------------------------------------- Retur
@@ -331,8 +344,11 @@ Route::group(
             ->group(function () {
 
                 Route::resource('Opname', 'OpnameController');
+<<<<<<< HEAD
                 Route::post('Opname/storeawal', 'OpnameController@Storeawal')
                     ->name('opname-store2');
+=======
+>>>>>>> parent of 607b072 (fix sso)
             });
 
         Route::prefix('inventory/approvalopname')
