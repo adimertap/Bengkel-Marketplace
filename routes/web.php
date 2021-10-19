@@ -34,18 +34,6 @@ Route::patch('account/password', 'Account\PasswordController@update')->name('pas
 Route::group(
     ['middleware' => 'auth'],
     function () {
-        // ------------------------------------------------------------------------
-        // MODUL SSO
-        // DASHBOARD
-        Route::prefix('sso')
-            ->namespace('SingleSignOn')
-            ->middleware(['verified'])
-            ->group(function () {
-                Route::get('/', 'DashboardSSOController@index')
-                    ->name('dashboardsso');
-                Route::resource('profile', 'ProfileController');
-            });
-
         // MODUL ADMIN MARKETPLACE ------------------------------------------------------------ ADM. Marketplace
         Route::prefix('AdminMarketplace')
             ->namespace('AdminMarketplace')
