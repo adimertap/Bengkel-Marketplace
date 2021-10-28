@@ -44,23 +44,23 @@ class TransaksiController extends Controller
                 }
                 $sparepart->save();
 
-                $kartu_gudang = new Kartugudang;
-                $kartu_gudang->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
-                $kartu_gudang->jumlah_keluar = $item->jumlah_produk;
+                // $kartu_gudang = new Kartugudang;
+                // $kartu_gudang->id_bengkel = $request['id_bengkel'] = Auth::user()->id_bengkel;
+                // $kartu_gudang->jumlah_keluar = $item->jumlah_produk;
 
-                $kartugudangterakhir =  $sparepart->Kartugudangsaldoakhir;
-                if($kartugudangterakhir != null)
-                $kartu_gudang->saldo_akhir = $kartugudangterakhir->saldo_akhir - $item->jumlah_produk;
+                // $kartugudangterakhir =  $sparepart->Kartugudangsaldoakhir;
+                // if($kartugudangterakhir != null)
+                // $kartu_gudang->saldo_akhir = $kartugudangterakhir->saldo_akhir - $item->jumlah_produk;
     
-                if($kartugudangterakhir == null)
-                $kartu_gudang->saldo_akhir =  $item->jumlah_produk;
+                // if($kartugudangterakhir == null)
+                // $kartu_gudang->saldo_akhir =  $item->jumlah_produk;
 
-                $kartu_gudang->id_sparepart = $sparepart->id_sparepart;
-                $kartu_gudang->kode_transaksi = $transaksi->code_transaksi;
-                $kartu_gudang->tanggal_transaksi = $transaksi->created_at;
-                $kartu_gudang->jenis_kartu = 'Online';
-                $kartu_gudang->harga_beli = $sparepart->harga_market;
-                $kartu_gudang->save();
+                // $kartu_gudang->id_sparepart = $sparepart->id_sparepart;
+                // $kartu_gudang->kode_transaksi = $transaksi->code_transaksi;
+                // $kartu_gudang->tanggal_transaksi = $transaksi->created_at;
+                // $kartu_gudang->jenis_kartu = 'Online';
+                // $kartu_gudang->harga_beli = $sparepart->harga_market;
+                // $kartu_gudang->save();
             }
         }
         $transaksi->update();
