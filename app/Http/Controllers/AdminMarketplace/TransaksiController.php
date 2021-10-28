@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminMarketplace;
 
 use App\Http\Controllers\Controller;
+use App\Model\Inventory\DetailSparepart\DetailSparepart;
 use App\Model\Inventory\Kartugudang\Kartugudang;
 use App\Model\Inventory\Sparepart;
 use App\Model\Marketplace\DetailTransaksi;
@@ -25,7 +26,6 @@ class TransaksiController extends Controller
     }
     public function update(Request $request, $id)
     {
-
         $transaksi= Transaksi::findOrFail($id);
         $transaksi->resi= $request->resi;
         if($request->transaksi_status == "DIBAYAR"){
@@ -33,8 +33,8 @@ class TransaksiController extends Controller
 
             $detailtransaksi=DetailTransaksi::where('id_transaksi_online', $id)->get();
             foreach($detailtransaksi as $item){
-                $sparepart= Sparepart::findOrFail($item->id_sparepart);
-                $sparepart->stock = $sparepart->stock - $item->jumlah_produk;
+                $sparepart= DetailSparepart::findOrFail($item->id_detail_sparepart);
+                $sparepart->qty_stok = $sparepart->qty_stok - $item->jumlah_produk;
                 if($sparepart->stock >= $sparepart->stock_min){
                     $sparepart->status_jumlah = 'Cukup';
                 } else if($sparepart->stock == 0){
