@@ -36,7 +36,13 @@
         <div class="small">
             <i class="fa fa-cogs" aria-hidden="true"></i>
             Bengkel
-            <span class="font-weight-500 text-primary">{{ Auth::user()->bengkel->nama_bengkel}}</span>
+            <span class="font-weight-500 text-primary">{{ Auth::user()->bengkel->nama_bengkel}}
+                @if (Auth::user()->pegawai->cabang != null)
+                {{ Auth::user()->pegawai->cabang->nama_cabang }}
+                @else
+
+                @endif
+            </span>
         </div>
         </form>
         <ul class="navbar-nav align-items-center ml-auto">
@@ -49,16 +55,16 @@
                         src="/backend/src/assets/img/freepik/profiles/profile-6.png" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up"
-                        aria-labelledby="navbarDropdownUserImage">
-                        <h6 class="dropdown-header d-flex align-items-center">
-                             <img class="dropdown-user-img" src="/backend/src/assets/img/freepik/profiles/profile-6.png" />
-                            <div class="dropdown-user-details">
-                                <div class="dropdown-user-details-name">{{ Auth::user()->pegawai->nama_pegawai }}</div>
-                                <div class="dropdown-user-details-email">{{ Auth::user()->email }}</div>
-                            </div>
-                        </h6>
+                    aria-labelledby="navbarDropdownUserImage">
+                    <h6 class="dropdown-header d-flex align-items-center">
+                        <img class="dropdown-user-img" src="/backend/src/assets/img/freepik/profiles/profile-6.png" />
+                        <div class="dropdown-user-details">
+                            <div class="dropdown-user-details-name">{{ Auth::user()->pegawai->nama_pegawai }}</div>
+                            <div class="dropdown-user-details-email">{{ Auth::user()->email }}</div>
+                        </div>
+                    </h6>
 
-                        
+
                     @elseif (Auth::user()->Pegawai->jenis_kelamin == 'Perempuan')
 
                     <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage"
