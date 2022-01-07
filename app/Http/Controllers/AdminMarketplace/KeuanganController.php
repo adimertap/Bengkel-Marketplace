@@ -36,7 +36,7 @@ class KeuanganController extends Controller
         }
         // $bank = Bank::get();
         $bank = Bankaccount::where('id_bengkel', Auth::user()->id_bengkel)->get();
-        // return $bankacc;
+        return $bank;
 
         $keuangan = Keuangan::with(["Bankacc"])->where('id_bengkel', Auth::user()->id_bengkel)->orderBy('id_keuangan', 'DESC')->get();
         // $keuangan_debet = Keuangan::where('id_bengkel', Auth::user()->id_bengkel)->where('status', 'DEBET')->get();
