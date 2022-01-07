@@ -36,13 +36,13 @@ class KeuanganController extends Controller
         }
         // $bank = Bank::get();
         $bank = Bankaccount::where('id_bengkel', Auth::user()->id_bengkel)->get();
-        return $bank;
+        // return $bank;
 
         $keuangan = Keuangan::with(["Bankacc"])->where('id_bengkel', Auth::user()->id_bengkel)->orderBy('id_keuangan', 'DESC')->get();
         // $keuangan_debet = Keuangan::where('id_bengkel', Auth::user()->id_bengkel)->where('status', 'DEBET')->get();
         // $uang = $keuangan_debet - $keuangan_credit;
 
-        return $keuangan;
+        // return $keuangan;
         return view('pages.adminmarketplace.keuangan',
             ['saldo' => $saldo, 
             'bank'=>$bank,
