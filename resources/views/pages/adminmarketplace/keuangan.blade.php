@@ -87,13 +87,7 @@
                                                 style="width: 150px;">jumlah</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Position: activate to sort column ascending"
-                                                style="width: 200px;">nama bank</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Position: activate to sort column ascending"
-                                                style="width: 200px;">no rekening</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                                colspan="1" aria-label="Position: activate to sort column ascending"
-                                                style="width: 200px;">nama rekening</th>
+                                                style="width: 200px;">Bank Penarikan</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                 colspan="1" aria-label="Position: activate to sort column ascending"
                                                 style="width: 200px;">status</th>
@@ -111,9 +105,7 @@
                                             <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
                                             <td>{{ $item->updated_at }}</td>
                                             <td>{{ $item->jumlah}}</td>
-                                            <td>{{ $item->Bank->nama_bank}}</td>
-                                            <td>{{ $item->no_rekening}}</td>
-                                            <td>{{ $item->nama_rekening}}</td>
+                                            <td>{{ $item->Bankacc->Bank->nama_bank}}  {{  $item->Bankacc->nomor_rekening }} A/n  {{ $item->Bankacc->nama_account }}</td>
                                             <td>{{ $item->status}}</td>
                                             <td>{{ $item->keterangan}}</td>
                                             <td>
@@ -199,21 +191,12 @@
                         <select class="form-control select2" id="kt_select2_1" name="nama_bank" required>
                             <option value="" holder>Pilih Bank</option>
                             @foreach ($bank as $item)
-                            <option value="{{ $item->id_bank }}">
-                                {{ $item->nama_bank }}</option>
+                            <option value="{{ $item->id_bank_account }}">
+                                {{ $item->Bank->nama_bank}}  {{  $item->nomor_rekening }} A/n  {{ $item->nama_account }}
+ </option>
                             @endforeach
 
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="small mr-1" for="no_rekening">No Rekening</label><span class="mr-4 mb-3"
-                            style="color: red">*</span>
-                        <input class="form-control" name="no_rekening" type="text" id="no_rekening" required />
-                    </div>
-                    <div class="form-group">
-                        <label class="small mr-1" for="nama_rekening">Nama Bank</label><span class="mr-4 mb-3"
-                            style="color: red">*</span>
-                        <input class="form-control" name="nama_rekening" type="text" id="nama_rekening" required />
                     </div>
 
                 </div>

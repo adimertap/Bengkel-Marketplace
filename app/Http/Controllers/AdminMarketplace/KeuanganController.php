@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminMarketplace;
 
 use App\Bank;
 use App\Http\Controllers\Controller;
+use App\Model\Accounting\Bankaccount;
 use Illuminate\Support\Facades\Auth;
 use App\Model\Marketplace\Keuangan;
 use App\Model\Marketplace\Transaksi;
@@ -33,9 +34,11 @@ class KeuanganController extends Controller
         }else{
             $saldo = 0;
         }
-        $bank = Bank::get();
+        // $bank = Bank::get();
+        $bank = Bankaccount::where('id_bengkel', Auth::user()->id_bengkel)->get();
+        // return $bankacc;
 
-        $keuangan = Keuangan::with(["Bank"])->where('id_bengkel', Auth::user()->id_bengkel)->orderBy('id_keuangan', 'DESC')->get();
+        $keuangan = Keuangan::with(["Bankacc"])->where('id_bengkel', Auth::user()->id_bengkel)->orderBy('id_keuangan', 'DESC')->get();
         // $keuangan_debet = Keuangan::where('id_bengkel', Auth::user()->id_bengkel)->where('status', 'DEBET')->get();
         // $uang = $keuangan_debet - $keuangan_credit;
 

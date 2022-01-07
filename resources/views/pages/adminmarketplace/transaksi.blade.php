@@ -187,7 +187,6 @@
                                     <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
                                     <td>{{ $sparepart->Sparepart->nama_sparepart }}</td>
                                     <td>{{ $sparepart->pivot->jumlah_produk }}</td>
-
                                 </tr>
                                 @empty
                                 <tr>
