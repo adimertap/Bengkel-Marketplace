@@ -42,7 +42,7 @@ class KeuanganController extends Controller
         // $keuangan_debet = Keuangan::where('id_bengkel', Auth::user()->id_bengkel)->where('status', 'DEBET')->get();
         // $uang = $keuangan_debet - $keuangan_credit;
 
-        // return $keuangan;
+        return $keuangan;
         return view('pages.adminmarketplace.keuangan',
             ['saldo' => $saldo, 
             'bank'=>$bank,
