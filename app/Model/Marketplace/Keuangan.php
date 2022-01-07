@@ -19,7 +19,7 @@ class Keuangan extends Model
     {
         return $this->belongsTo(Bank::class, 'nama_bank', 'id_bank');
     }
-    public function BankAcc()
+    public function Bankacc()
     {
         return $this->belongsTo(Bankaccount::class, 'id_bank_account', 'id_bank_account');
     }
