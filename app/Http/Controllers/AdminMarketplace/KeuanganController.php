@@ -58,7 +58,7 @@ class KeuanganController extends Controller
        Keuangan::create([
             'id_bengkel'=> Auth::user()->id_bengkel,
             'jumlah'=> $request->jumlah,
-            'id_bank_account'=> $request->id_bank_account,
+            'id_bank_account'=> $request->id_bank_account
         ]);
 
         

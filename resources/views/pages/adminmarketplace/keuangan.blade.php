@@ -188,7 +188,7 @@
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control select2" id="kt_select2_1" name="nama_bank" required>
+                        <select class="form-control select2" id="kt_select2_1" name="id_bank_account" required>
                             <option value="" holder>Pilih Bank</option>
                             @foreach ($bank as $item)
                             <option value="{{ $item->id_bank_account }}">
