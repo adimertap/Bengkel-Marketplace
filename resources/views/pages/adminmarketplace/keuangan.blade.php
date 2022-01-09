@@ -25,24 +25,24 @@
             <div class="card card-header-actions">
                 <div class="card-header ">Saldo = Rp. {{ $saldo }}
                     @if (isset($keuangan->first()->status))
-                        @if ($keuangan->first()->status != 'PENDING' && $saldo > 0)
-                            <a href="" class="btn btn-danger btn-datatable  mr-2" type="button" data-toggle="modal"
-                                data-target="#Modaltambah">Tarik Saldo
-                            </a>
-                        @else
-                            @if ($saldo > 0)
-                                                            <a href="#" class="btn btn-sm btn-primary"> Penarikan dalam Proses</a>
-
-
-                            @endif
-
-                        @endif
+                    @if ($keuangan->first()->status != 'PENDING' && $saldo > 0)
+                    <a href="" class="btn btn-danger btn-datatable  mr-2" type="button" data-toggle="modal"
+                        data-target="#Modaltambah">Tarik Saldo
+                    </a>
                     @else
-                        @if ($saldo > 0)
-                            <a href="" class="btn btn-danger btn-datatable  mr-2" type="button" data-toggle="modal"
-                                data-target="#Modaltambah">Tarik Saldo
-                            </a>
-                        @endif
+                    @if ($saldo > 0)
+                    <a href="#" class="btn btn-sm btn-primary"> Penarikan dalam Proses</a>
+
+
+                    @endif
+
+                    @endif
+                    @else
+                    @if ($saldo > 0)
+                    <a href="" class="btn btn-danger btn-datatable  mr-2" type="button" data-toggle="modal"
+                        data-target="#Modaltambah">Tarik Saldo
+                    </a>
+                    @endif
 
                     @endif
 
@@ -105,9 +105,42 @@
                                             <th scope="row" class="small" class="sorting_1">{{ $loop->iteration}}</th>
                                             <td>{{ $item->updated_at }}</td>
                                             <td>{{ $item->jumlah}}</td>
-                                            <td>{{ $item->Bankacc->Bank->nama_bank}}  {{  $item->Bankacc->nomor_rekening }} A/n  {{ $item->Bankacc->nama_account }}</td>
+                                            <td>{{ $item->Bankacc->Bank->nama_bank}}
+                                                {{  $item->Bankacc->nomor_rekening }} A/n
+                                                {{ $item->Bankacc->nama_account }}</td>
                                             <td>{{ $item->status}}</td>
-                                            <td>{{ $item->keterangan}}</td>
+                                            <td>
+                                                @if ({{ $item->status}} == 'BERHASIL')
+                                                <!-- Button trigger modal -->
+                                                <button class="btn btn-primary" type="button" data-toggle="modal"
+                                                    data-target="#exampleModalCenter">Lihat Bukti</button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModalCenter" tabindex="-1"
+                                                    role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                    Bukti</h5>
+                                                                <button class="close" type="button" data-dismiss="modal"
+                                                                    aria-label="Close"><span
+                                                                        aria-hidden="true">×</span></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img src="https://admin.bengkel-kuy.com/image/{{ $item['photo'] }}"
+                                                                    width="100" height="80" /> </div>
+                                                            <div class="modal-footer"><button class="btn btn-secondary"
+                                                                    type="button" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @else
+                                                    {{ $item->keterangan}}
+                                                    @endif
+
+                                            </td>
                                             <td>
                                                 @if ($item->status == 'PENDING')
                                                 <a href="" class="btn btn-danger btn-datatable  mr-2" type="button"
@@ -192,8 +225,8 @@
                             <option value="" holder>Pilih Bank</option>
                             @foreach ($bank as $item)
                             <option value="{{ $item->id_bank_account }}">
-                                {{ $item->Bank->nama_bank}}  {{  $item->nomor_rekening }} A/n  {{ $item->nama_account }}
- </option>
+                                {{ $item->Bank->nama_bank}} {{  $item->nomor_rekening }} A/n {{ $item->nama_account }}
+                            </option>
                             @endforeach
 
                         </select>

@@ -13,7 +13,7 @@ class Keuangan extends Model
     protected $primaryKey = 'id_keuangan';
 
     protected $fillable = [
-       'id_bengkel', 'jumlah', 'nama_bank', 'no_rekening', 'nama_rekening', 'id_bank_account'];
+       'id_bengkel', 'jumlah', 'nama_bank', 'no_rekening', 'nama_rekening', 'id_bank_account', 'photo'];
 
     public function Bank()
     {
