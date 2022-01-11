@@ -110,7 +110,7 @@
                                                 {{ $item->Bankacc->nama_account }}</td>
                                             <td>{{ $item->status}}</td>
                                             <td>
-                                                @if ({{ $item->status}} == 'BERHASIL')
+                                                {{-- @if ({{ $item->status}} == 'BERHASIL') --}}
                                                 <!-- Button trigger modal -->
                                                 <button class="btn btn-primary" type="button" data-toggle="modal"
                                                     data-target="#exampleModalCenter">Lihat Bukti</button>
@@ -136,9 +136,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @else
+                                                    {{-- @else
                                                     {{ $item->keterangan}}
-                                                    @endif
+                                                    @endif --}}
 
                                             </td>
                                             <td>
