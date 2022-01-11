@@ -130,7 +130,7 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <img src="https://admin.bengkel-kuy.com/image/{{ $item['photo'] }}"
-                                                                    width="100" height="80" /> </div>
+                                                                    width="500" height="200" /> </div>
                                                             <div class="modal-footer"><button class="btn btn-secondary"
                                                                     type="button" data-dismiss="modal">Close</button>
                                                             </div>
